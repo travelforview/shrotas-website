@@ -21,6 +21,5 @@ export const assets = {
   front: "/assets/shrotas/bottle-front.png",
   side: "/assets/shrotas/bottle-side.png",
   back: "/assets/shrotas/bottle-back.png",
-  spin: "/assets/shrotas/bottle-spin.mp4",
   logo: "/assets/shrotas/logo.png",
 } as const;

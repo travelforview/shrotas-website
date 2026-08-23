@@ -32,7 +32,6 @@ Production verification: `pnpm lint`, `pnpm typecheck`, and `pnpm build`. Produc
 - `bottle-front.png`: particle alpha mask, hero reveal, and first product angle.
 - `bottle-side.png`: second product-detail angle.
 - `bottle-back.png`: third product-detail angle.
-- `bottle-spin.mp4`: retained because the current experience preloads its metadata.
 - `logo.png`: intro brand reveal, navigation, favicon, and finale.
 
 Before public deployment, replace the placeholder canonical domain in `layout.tsx`, `robots.ts`, and `sitemap.ts` with the final verified domain. No deployment or hosting configuration is included.
