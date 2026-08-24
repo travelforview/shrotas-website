@@ -18,7 +18,14 @@ export function ShrotasSite(){
   useEffect(()=>{gsap.registerPlugin(ScrollTrigger);if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;const ctx=gsap.context(()=>{
     gsap.utils.toArray<HTMLElement>("[data-reveal]").forEach(el=>gsap.fromTo(el,{y:50,opacity:0},{y:0,opacity:1,duration:1.1,ease:"power3.out",scrollTrigger:{trigger:el,start:"top 84%"}}));
     gsap.to(".manifesto-type",{xPercent:-13,ease:"none",scrollTrigger:{trigger:"#story",start:"top bottom",end:"bottom top",scrub:1}});
-    gsap.utils.toArray<HTMLElement>(".study-step").forEach((el,i)=>ScrollTrigger.create({trigger:el,start:"top center",end:"bottom center",onEnter:()=>setAngle(i),onEnterBack:()=>setAngle(i)}));
+    const media=gsap.matchMedia();
+    const studyTriggers=(start:string)=>gsap.utils.toArray<HTMLElement>(".study-step").forEach((el,i)=>ScrollTrigger.create({trigger:el,start,end:"bottom 45%",onEnter:()=>setAngle(i),onEnterBack:()=>setAngle(i)}));
+    media.add("(max-width: 760px)",()=>studyTriggers("top 58%"));
+    media.add("(min-width: 761px) and (max-width: 1100px)",()=>studyTriggers("top 55%"));
+    media.add("(min-width: 1101px)",()=>studyTriggers("top center"));
+    let orientationFrame=0;const refresh=()=>{cancelAnimationFrame(orientationFrame);orientationFrame=requestAnimationFrame(()=>ScrollTrigger.refresh())};
+    addEventListener("orientationchange",refresh);
+    return()=>{removeEventListener("orientationchange",refresh);cancelAnimationFrame(orientationFrame);media.revert()};
   },root);return()=>ctx.revert()},[]);
   const active=studies[angle];
   return <main ref={root} className={entered?"site-entered":""}><HeroScene onReady={ready}/>
