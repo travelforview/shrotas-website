@@ -9,8 +9,8 @@ export type ExperiencePhase="loading"|"forming"|"resolving"|"ready";
 export function BottleExperience({onReady}:{onReady:()=>void}) {
   const [phase,setPhase]=useState<ExperiencePhase>("loading"), [progress,setProgress]=useState(0), [reduced,setReduced]=useState(false),[active,setActive]=useState(false),[auto,setAuto]=useState(false),[turn,setTurn]=useState(0);
   useEffect(()=>{const mq=matchMedia("(prefers-reduced-motion: reduce)");setReduced(mq.matches);let value=0;const interval=window.setInterval(()=>{value=Math.min(100,value+20);setProgress(value);if(value===100){window.clearInterval(interval);setTimeout(()=>setPhase("forming"),180)}},140);[assets.front,assets.logo].forEach(src=>{const i=new window.Image();i.src=src});return()=>window.clearInterval(interval)},[]);
-  useEffect(()=>{if(phase!=="forming")return;const t=setTimeout(()=>setPhase("resolving"),reduced?100:3500);return()=>clearTimeout(t)},[phase,reduced]);
-  useEffect(()=>{if(phase!=="resolving")return;const t=setTimeout(()=>{setPhase("ready");onReady()},reduced?100:1600);return()=>clearTimeout(t)},[phase,reduced,onReady]);
+  useEffect(()=>{if(phase!=="forming")return;const t=setTimeout(()=>setPhase("resolving"),reduced?100:3950);return()=>clearTimeout(t)},[phase,reduced]);
+  useEffect(()=>{if(phase!=="resolving")return;const t=setTimeout(()=>{setPhase("ready");onReady()},reduced?100:1500);return()=>clearTimeout(t)},[phase,reduced,onReady]);
   const bottleVisible=phase==="resolving"||phase==="ready";
   const activity=useCallback((value:boolean)=>setActive(value),[]),rotation=useCallback((value:number)=>setTurn(value),[]);
   return <section id="top" className={`experience phase-${phase} ${active?"is-rotating":""} ${auto?"is-auto":""}`} style={{"--turn":turn} as React.CSSProperties} aria-label="Shrotas bottle introduction">
