@@ -62,3 +62,36 @@
 @media(max-height:520px) and (orientation:landscape){.experience{min-height:500px}.viewer-wrap{width:min(26vw,220px);height:82svh}.hero-type{inset:10% 4%;font-size:14vh;line-height:.78}.hero-type span:nth-child(2){padding-left:40vw}.hero-type span:nth-child(3){align-self:flex-end}.hero-mark{top:calc(12px + env(safe-area-inset-top))}.scroll-mark{bottom:14px}.rotate-hint{bottom:.2rem}.nav{padding-block:10px}.scene{min-height:520px}}
 @media(min-width:1920px){.viewer-wrap{width:420px;height:min(76vh,780px)}.hero-type{font-size:min(13vw,15rem)}.manifesto-copy{max-width:1160px}.early-facts{max-width:1080px}.study-image{width:470px}.scene{padding-inline:max(9vw,180px)}}
 @media(prefers-reduced-motion:reduce){.water-interior i,.water-interior b{animation:none}.water-interior{opacity:.1;transform:none}.phase-resolving .hero-type{opacity:0}}
+
+/* Cross-device usability QA corrections */
+html,body{width:100%;max-width:100%;overscroll-behavior-x:none}img{max-width:100%}
+.nav{padding-left:max(clamp(20px,5vw,72px),env(safe-area-inset-left));padding-right:max(clamp(20px,5vw,72px),env(safe-area-inset-right))}
+.study-caption{z-index:3}.stage-number{z-index:3}.study-step{scroll-margin-top:72px}
+@media(max-width:760px){
+  .nav{min-height:62px;padding-top:calc(10px + env(safe-area-inset-top));padding-bottom:8px;background:linear-gradient(180deg,rgba(7,6,6,.96),rgba(7,6,6,.72) 72%,transparent);gap:12px}
+  .wordmark{font-size:.62rem;letter-spacing:.25em;flex:0 0 auto}.nav nav{gap:clamp(6px,2.4vw,14px);margin-left:auto}.nav nav a{font-size:.5rem;letter-spacing:.12em;padding-inline:3px;white-space:nowrap}
+  .hero-mark{top:calc(18px + env(safe-area-inset-top));left:max(18px,env(safe-area-inset-left))}.scroll-mark{right:max(20px,env(safe-area-inset-right))}
+  .study-stage{height:clamp(510px,68svh,610px);min-height:0}.study-stage:before{top:72px;left:50%;transform:translateX(-50%)}
+  .study-image{top:62px;left:50%;translate:-50% 0;width:min(56vw,250px);height:calc(100% - 208px)}
+  .study-caption{left:max(20px,env(safe-area-inset-left));right:max(20px,env(safe-area-inset-right));bottom:24px;width:auto;padding-top:28px;background:linear-gradient(transparent,rgba(239,235,229,.96) 34%)}
+  .study-caption h2{max-width:14ch;font-size:clamp(1.45rem,7vw,2rem)}.study-caption span{display:block;max-width:34ch}
+  .study-step{min-height:240px;padding-left:max(22px,env(safe-area-inset-left));padding-right:max(22px,env(safe-area-inset-right));scroll-margin-top:62px}
+  .water-lens{min-height:max(92svh,620px)}.portal-business strong{font-size:clamp(2rem,10vw,3.7rem)}
+  .business-action{left:50%;bottom:calc(22px + env(safe-area-inset-bottom));max-width:420px}.business-action a{min-height:34px;display:inline-flex;align-items:center;justify-content:center}
+  .finale{padding-left:max(18px,env(safe-area-inset-left));padding-right:max(18px,env(safe-area-inset-right))}.finale small{right:max(20px,env(safe-area-inset-right));bottom:calc(24px + env(safe-area-inset-bottom))}
+}
+@media(max-width:360px){
+  .nav{gap:7px}.wordmark{font-size:.56rem}.nav nav{gap:3px}.nav nav a{font-size:.46rem;letter-spacing:.09em;padding-inline:2px}
+  .viewer-wrap{width:min(60vw,210px);height:min(62svh,500px)}.hero-type{font-size:clamp(3.4rem,20vw,4.6rem)}
+  .manifesto h1{font-size:clamp(2.7rem,13.5vw,4rem)}.early-facts .source-soul strong{font-size:clamp(2rem,11vw,2.8rem)}
+  .study-stage{height:510px}.study-image{width:min(54vw,220px);height:300px}.business-action{width:calc(100% - 28px)}
+  .finale{grid-template-columns:36% 64%;column-gap:8px}.finale h2{font-size:10.5vw}.finale>img{height:48vh}.finale-contact{gap:6px}
+}
+@media(max-height:520px) and (orientation:landscape){
+  .experience{height:100svh;min-height:360px}.viewer-wrap{height:76svh;width:min(24vw,210px)}.hero-type{inset:8% 4%;font-size:13vh}.rotate-hint{bottom:-.1rem}
+  .nav{min-height:54px;padding-top:calc(6px + env(safe-area-inset-top));padding-bottom:4px}.nav nav a{min-height:36px}
+  .product-study{min-height:auto}.study-stage{top:54px;height:calc(100svh - 54px);min-height:310px}.study-image{height:62svh;width:min(24vw,205px)}.study-caption{bottom:16px}.study-caption h2{font-size:clamp(1.2rem,3vw,1.8rem)}.stage-number{top:70px;font-size:2.2rem}
+  .study-step{height:calc(100svh - 54px);min-height:310px;padding-block:42px}.study-step h3{font-size:clamp(1.8rem,5vw,3rem)}
+  .water-lens{min-height:420px}.water-portal{width:min(46vmin,210px)}.water-lens.is-open .water-portal{width:min(78vmin,390px)}.business-action{bottom:16px}
+  .finale{min-height:420px;padding-block:64px}.finale>img{height:64vh}
+}
