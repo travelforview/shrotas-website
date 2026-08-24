@@ -8,7 +8,7 @@ import { assets,businessContent,productFacts as f } from "@/data/productFacts";
 
 const studies=[
   {src:assets.front,kicker:"Composition / 01",title:"Essential Minerals",body:f.minerals.join(" · ")},
-  {src:assets.side,kicker:"Balance / 02",title:"pH 8+",body:"with electrolytes"},
+  {src:assets.side,kicker:"Origin / 02",title:"Source to Soul",body:"What begins as water becomes Shrotas."},
   {src:assets.back,kicker:"Material / 03",title:"Designed to Recycle",body:f.recyclable},
 ];
 
