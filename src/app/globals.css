@@ -10,8 +10,8 @@
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}.particle-canvas{display:none}.viewer-wrap{opacity:1}.rotate-hint{display:none}.water-portal{left:50%;top:50%}.finish-sweep{display:none}}
 .is-rotating{background:#fff}.scrub-video{-webkit-mask-image:radial-gradient(ellipse 50% 65% at center,#000 52%,transparent 90%);mask-image:radial-gradient(ellipse 50% 65% at center,#000 52%,transparent 90%)}
 @media(max-width:760px){.scrub-video{-webkit-mask-image:radial-gradient(ellipse 48% 65% at center,#000 50%,transparent 90%);mask-image:radial-gradient(ellipse 48% 65% at center,#000 50%,transparent 90%)}}
-.experience.is-rotating{background:#070606}.is-rotating .atmosphere{opacity:1}.is-rotating .hero-mark,.is-rotating .scroll-mark,.is-rotating .nav{mix-blend-mode:normal}.scrub-video,.interactive-bottle.has-viewer .scrub-video{-webkit-mask-image:url('/assets/shrotas/bottle-front.png');mask-image:url('/assets/shrotas/bottle-front.png');-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-position:center;mask-position:center;-webkit-mask-size:contain;mask-size:contain}
-@media(max-width:760px){.scrub-video,.interactive-bottle.has-viewer .scrub-video{-webkit-mask-image:url('/assets/shrotas/bottle-front.png');mask-image:url('/assets/shrotas/bottle-front.png');-webkit-mask-size:contain;mask-size:contain}}
+.experience.is-rotating{background:#070606}.is-rotating .atmosphere{opacity:1}.is-rotating .hero-mark,.is-rotating .scroll-mark,.is-rotating .nav{mix-blend-mode:normal}.scrub-video,.interactive-bottle.has-viewer .scrub-video{-webkit-mask-image:url('/assets/shrotas/bottle-front-photoreal.png');mask-image:url('/assets/shrotas/bottle-front-photoreal.png');-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-position:center;mask-position:center;-webkit-mask-size:contain;mask-size:contain}
+@media(max-width:760px){.scrub-video,.interactive-bottle.has-viewer .scrub-video{-webkit-mask-image:url('/assets/shrotas/bottle-front-photoreal.png');mask-image:url('/assets/shrotas/bottle-front-photoreal.png');-webkit-mask-size:contain;mask-size:contain}}
 .angle-layer{position:absolute;inset:0;display:block;transition:opacity .08s linear,transform .12s ease-out;will-change:opacity,transform}.angle-layer img{object-fit:contain;filter:drop-shadow(0 28px 24px rgba(0,0,0,.28))}.interactive-bottle.is-settling .angle-layer:first-of-type{animation:settleFocus .9s ease-out}.experience.is-rotating{background:#070606}
 @keyframes settleFocus{0%,65%{filter:brightness(1)}82%{filter:brightness(1.12)}100%{filter:brightness(1)}}
 .phase-resolving .viewer-wrap{opacity:.42;filter:blur(5px) brightness(.72) drop-shadow(0 35px 35px rgba(0,0,0,.35));transform:scale(.995)}.phase-ready .viewer-wrap{filter:blur(0) brightness(1) drop-shadow(0 35px 35px rgba(0,0,0,.6))}.phase-resolving .hero-type{opacity:.28}.interactive-bottle{touch-action:pan-y;-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none;-webkit-user-drag:none;appearance:none;border:0;background:transparent;padding:0;color:inherit}.interactive-bottle img{-webkit-user-drag:none;pointer-events:none}.interactive-bottle:focus{outline:none}.interactive-bottle:focus-visible{outline:2px solid rgba(238,233,226,.9);outline-offset:8px;border-radius:48%}.is-auto .hero-type{animation:taglineOrbit 3.1s cubic-bezier(.2,.72,.2,1) both;will-change:transform,opacity}.is-auto .hero-type span{transition:none}
@@ -52,7 +52,7 @@
 .nav{padding-top:calc(18px + env(safe-area-inset-top))}.scroll-mark{bottom:calc(24px + env(safe-area-inset-bottom))}
 .water-formation{filter:none}.phase-resolving .viewer-wrap{opacity:.58;filter:blur(2.5px) brightness(.79) drop-shadow(0 30px 30px rgba(0,0,0,.4));transform:scale(.985)}
 .phase-resolving .hero-type{opacity:0;transform:scale(1.025)}.phase-ready .hero-type{transition-delay:.28s}.phase-ready .viewer-wrap{transition-delay:0s}
-.angle-layer{z-index:1}.water-interior{position:absolute;z-index:2;inset:0;display:block;overflow:hidden;opacity:.14;transform:translateY(var(--liquid-shift,0px)) rotate(var(--liquid-tilt,0deg));transform-origin:50% 72%;transition:transform .55s cubic-bezier(.16,.9,.22,1),opacity .25s;pointer-events:none;-webkit-mask:url('/assets/shrotas/bottle-front.png') center/contain no-repeat;mask:url('/assets/shrotas/bottle-front.png') center/contain no-repeat;clip-path:inset(21% 17% 10%)}
+.angle-layer{z-index:1}.water-interior{position:absolute;z-index:2;inset:0;display:block;overflow:hidden;opacity:.14;transform:translateY(var(--liquid-shift,0px)) rotate(var(--liquid-tilt,0deg));transform-origin:50% 72%;transition:transform .55s cubic-bezier(.16,.9,.22,1),opacity .25s;pointer-events:none;-webkit-mask:url('/assets/shrotas/bottle-front-photoreal.png') center/contain no-repeat;mask:url('/assets/shrotas/bottle-front-photoreal.png') center/contain no-repeat;clip-path:inset(21% 17% 10%)}
 .water-interior i,.water-interior b{position:absolute;display:block;left:22%;right:22%}.water-interior i{inset:24% 20% 10%;background:linear-gradient(112deg,transparent 15%,rgba(174,226,248,.5) 38%,rgba(255,255,255,.72) 48%,rgba(118,196,226,.24) 63%,transparent 82%);filter:blur(5px);animation:innerCurrent 6.5s ease-in-out infinite}
 .water-interior b{top:31%;height:1px;background:linear-gradient(90deg,transparent,rgba(225,248,255,.9),transparent);box-shadow:0 5px 22px rgba(132,210,240,.58);animation:waterline 4.8s ease-in-out infinite}.interactive-bottle.is-engaged .water-interior{opacity:.23}
 @keyframes innerCurrent{0%,100%{transform:translateX(-14%) skewX(-7deg)}50%{transform:translateX(14%) skewX(7deg)}}@keyframes waterline{0%,100%{transform:translateY(0) scaleX(.84)}50%{transform:translateY(5px) scaleX(1.08)}}
@@ -169,3 +169,27 @@ html,body{width:100%;max-width:100%;overscroll-behavior-x:none}img{max-width:100
   .hero-type-right b{font-size:clamp(2.5rem,6.2vw,3.2rem);line-height:.82;letter-spacing:-.05em;white-space:nowrap}
   .hero-type-right i{margin:.3em 0 0;font-size:.58rem}
 }
+
+/* Final source-faithful product viewer and editorial FLIP / SPIN control. */
+.interactive-bottle{position:absolute;inset:0;display:block;touch-action:pan-y;cursor:default;user-select:none;outline:none;border:0;background:transparent;padding:0;color:inherit}
+.hero-still,.hero-animation{position:absolute;inset:0;display:block;width:100%;height:100%}
+.viewer-wrap{top:50%;left:50%;width:min(38vw,420px);transform:translate(-50%,-50%) scale(.91)}
+.viewer-wrap.is-visible{transform:translate(-50%,-50%) scale(1)}
+.phase-resolving .viewer-wrap{transform:translate(-50%,-50%) scale(.985)}
+.hero-still img{object-fit:contain;object-position:center}
+.hero-animation{z-index:2;object-fit:contain;object-position:center;opacity:0;pointer-events:none;transition:opacity .14s ease}
+.interactive-bottle>.bottle-glow{inset:5% -46%;background:radial-gradient(ellipse,rgba(247,247,244,.48),rgba(242,242,238,.17) 35%,rgba(255,255,255,.04) 55%,transparent 72%);filter:blur(20px)}
+.hero-animation.is-playing{opacity:1}
+.interactive-bottle.phase-playing .hero-still{opacity:0}
+.motion-control{position:absolute;z-index:4;left:50%;bottom:-2.9rem;translate:-50% 0;display:flex;align-items:center;gap:1.25rem;white-space:nowrap}
+.motion-control button{position:relative;min-width:48px;min-height:44px;padding:0 2px;border:0;background:none;color:#8f8782;text-transform:uppercase;font:500 .56rem/1 "Manrope";letter-spacing:.26em;cursor:pointer;transition:color .25s ease}
+.motion-control button:after{content:"";position:absolute;left:2px;right:calc(2px + .26em);bottom:4px;height:1px;background:var(--red);transform:scaleX(0);transform-origin:left;transition:transform .25s ease}
+.motion-control button:hover,.motion-control button:focus-visible,.motion-control button.is-active{color:var(--paper)}
+.motion-control button:hover:after,.motion-control button:focus-visible:after,.motion-control button.is-active:after{transform:scaleX(1)}
+.motion-control button:focus-visible{outline:1px solid rgba(238,233,226,.72);outline-offset:4px}
+.motion-control button:disabled{cursor:default;opacity:.35}
+.sr-only{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
+.study-image img,.finale>img{object-fit:contain;object-position:center}
+@media(max-width:760px){.viewer-wrap{width:min(82vw,330px)}.motion-control{bottom:-2.45rem;gap:1rem}.motion-control button{font-size:.52rem}}
+@media(max-height:520px) and (orientation:landscape){.motion-control{bottom:.05rem;left:calc(50% + 18vw)}}
+@media(prefers-reduced-motion:reduce){.hero-animation{display:none}.motion-control button:after{transition:none}}
