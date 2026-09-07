@@ -179,6 +179,7 @@ html,body{width:100%;max-width:100%;overscroll-behavior-x:none}img{max-width:100
 .hero-still{transform-origin:50% 52%;transform-style:preserve-3d;will-change:transform}
 .hero-still img{object-fit:contain;object-position:center;filter:drop-shadow(0 0 .9px rgba(0,0,0,.95)) brightness(1.04) contrast(1.12) saturate(1.18) drop-shadow(0 28px 38px rgba(0,0,0,.52))}
 .hero-still img{filter:drop-shadow(0 0 .9px rgba(0,0,0,.95)) brightness(1.22) contrast(1.08) saturate(1.12) drop-shadow(0 28px 38px rgba(0,0,0,.52))}
+.hero-still img,.study-image img{clip-path:polygon(27% 2%,73% 2%,75% 9%,64% 11%,64% 15%,80% 22%,90% 31%,92% 88%,88% 95%,75% 98%,25% 98%,12% 95%,8% 88%,10% 31%,20% 22%,36% 15%,36% 11%,25% 9%)}
 .experience.is-rotating{background:#070606}.is-rotating .hero-mark,.is-rotating .scroll-mark,.is-rotating .nav{mix-blend-mode:normal}.is-rotating .atmosphere{opacity:.7}
 .hero-animation{z-index:2;object-fit:contain;object-position:center;opacity:0;transform:scale(1.2);filter:brightness(1.2) contrast(1.05) saturate(1.05);pointer-events:none;transition:opacity .16s ease}
 .bottle-touch>.bottle-glow{inset:5% -46%;background:radial-gradient(ellipse,rgba(247,247,244,.48),rgba(242,242,238,.17) 35%,rgba(255,255,255,.04) 55%,transparent 72%);filter:blur(20px)}
