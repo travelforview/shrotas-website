@@ -173,11 +173,11 @@ html,body{width:100%;max-width:100%;overscroll-behavior-x:none}img{max-width:100
 /* Final source-faithful product viewer and editorial FLIP / SPIN control. */
 .interactive-bottle{position:absolute;inset:0;display:block;touch-action:pan-y;cursor:default;user-select:none;outline:none;border:0;background:transparent;padding:0;color:inherit}
 .hero-still,.hero-animation{position:absolute;inset:0;display:block;width:100%;height:100%}
-.viewer-wrap{top:50%;left:50%;width:min(46vw,520px);transform:translate(-50%,-50%) scale(.91)}
+.viewer-wrap{top:50%;left:50%;width:min(40vw,460px);transform:translate(-50%,-50%) scale(.91)}
 .viewer-wrap.is-visible{transform:translate(-50%,-50%) scale(1)}
 .phase-resolving .viewer-wrap{transform:translate(-50%,-50%) scale(.985)}
 .hero-still img{object-fit:contain;object-position:center;filter:brightness(1.32) contrast(1.08) saturate(1.06) drop-shadow(0 28px 38px rgba(0,0,0,.52))}
-.hero-animation{z-index:2;object-fit:contain;object-position:center;opacity:0;transform:scale(1.12);filter:brightness(1.22) contrast(1.06) saturate(1.06);pointer-events:none;transition:opacity .12s ease}
+.hero-animation{z-index:2;object-fit:contain;object-position:center;opacity:0;transform:scale(1.55);filter:brightness(1.3) contrast(1.07) saturate(1.07);pointer-events:none;transition:opacity .12s ease}
 .interactive-bottle>.bottle-glow{inset:5% -46%;background:radial-gradient(ellipse,rgba(247,247,244,.48),rgba(242,242,238,.17) 35%,rgba(255,255,255,.04) 55%,transparent 72%);filter:blur(20px)}
 .hero-animation.is-playing{opacity:1}
 .interactive-bottle.phase-playing .hero-still{opacity:0}
@@ -190,6 +190,6 @@ html,body{width:100%;max-width:100%;overscroll-behavior-x:none}img{max-width:100
 .motion-control button:disabled{cursor:default;opacity:.35}
 .sr-only{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
 .study-image img,.finale>img{object-fit:contain;object-position:center;filter:brightness(1.04) contrast(1.04) saturate(1.02) drop-shadow(0 25px 28px rgba(0,0,0,.18))}
-@media(max-width:760px){.viewer-wrap{width:min(84vw,360px)}.motion-control{bottom:-2.45rem;gap:1rem}.motion-control button{font-size:.52rem}.hero-animation{transform:scale(1.22)}}
+@media(max-width:760px){.viewer-wrap{width:min(72vw,310px);height:min(56svh,500px)}.motion-control{bottom:-4.2rem;gap:1rem}.motion-control button{font-size:.52rem}.hero-animation{transform:scale(1.72)}}
 @media(max-height:520px) and (orientation:landscape){.motion-control{bottom:.05rem;left:calc(50% + 18vw)}}
 @media(prefers-reduced-motion:reduce){.hero-animation{display:none}.motion-control button:after{transition:none}}
