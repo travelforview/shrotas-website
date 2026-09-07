@@ -22,7 +22,7 @@ export const assets = {
   side: "/assets/shrotas/bottle-side-bright-cutout-v4.png",
   back: "/assets/shrotas/bottle-back-bright-cutout-v4.png",
   heroFront: "/assets/shrotas/bottle-front-bright-cutout-v4.png",
-  flip: "/assets/shrotas/bottle-flip-photoreal.webp",
-  spin: "/assets/shrotas/bottle-spin-photoreal.webp",
+  flip: "/assets/shrotas/bottle-flip-responsive.webp",
+  spin: "/assets/shrotas/bottle-spin-responsive.webp",
   logo: "/assets/shrotas/logo.png",
 } as const;
