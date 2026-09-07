@@ -32,13 +32,13 @@ export function InteractiveBottle({ enabled, reducedMotion, onActivity, onRotati
     setPhase("idle");
     onActivity(false);
     onAuto(false);
-    onRotation(0);
+    onRotation(.5);
   }, [onActivity, onAuto, onRotation]);
 
   const choose = useCallback((next: Mode) => {
     if (!enabled) return;
     if (timer.current) clearTimeout(timer.current);
-    onRotation(0);
+    onRotation(.5);
     if (reducedMotion) {
       setMode(next);
       setPhase("idle");
@@ -91,23 +91,38 @@ export function InteractiveBottle({ enabled, reducedMotion, onActivity, onRotati
 
   const active = mode ? animation[mode] : null;
   return <div className={`interactive-bottle phase-${phase}`} aria-busy={phase !== "idle"}>
-    <span className="bottle-glow" aria-hidden="true" />
-    <span className="hero-still">
-      <Image src={assets.heroFront} alt="Front of the Shrotas 750 ml bottle" draggable={false} fill priority sizes="(max-width: 768px) 66vw, 420px" />
-    </span>
-    {active && !reducedMotion && <Image
-      key={`${mode}-${run}`}
-      className="hero-animation is-playing"
-      src={`${active.src}?run=${run}`}
-      alt=""
-      aria-hidden="true"
-      draggable="false"
-      fill
-      unoptimized
-      sizes="(max-width: 768px) 66vw, 420px"
-      onLoad={begin}
-      onError={clearPlayback}
-    />}
+    <button
+      className="bottle-touch"
+      type="button"
+      disabled={!enabled}
+      aria-label="Spin the Shrotas bottle"
+      onClick={() => choose("spin")}
+      onPointerMove={(event) => {
+        if (!enabled || event.pointerType === "touch") return;
+        const rect = event.currentTarget.getBoundingClientRect();
+        onRotation(Math.max(0, Math.min(1, (event.clientX - rect.left) / rect.width)));
+        onActivity(true);
+      }}
+      onPointerLeave={() => { if (phase === "idle") { onRotation(.5); onActivity(false); } }}
+    >
+      <span className="bottle-glow" aria-hidden="true" />
+      <span className="hero-still">
+        <Image src={assets.heroFront} alt="Front of the Shrotas 750 ml bottle" draggable={false} fill priority sizes="(max-width: 768px) 66vw, 420px" />
+      </span>
+      {active && !reducedMotion && <Image
+        key={`${mode}-${run}`}
+        className="hero-animation is-playing"
+        src={`${active.src}?run=${run}`}
+        alt=""
+        aria-hidden="true"
+        draggable="false"
+        fill
+        unoptimized
+        sizes="(max-width: 768px) 66vw, 420px"
+        onLoad={begin}
+        onError={clearPlayback}
+      />}
+    </button>
     <div className="motion-control" aria-label="Bottle animation">
       {(["flip", "spin"] as const).map(option => <button
         key={option}
