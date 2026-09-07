@@ -60,17 +60,27 @@ export function InteractiveBottle({ enabled, reducedMotion, onActivity, onRotati
 
   useEffect(() => {
     if (!enabled || reducedMotion) return;
-    const preload = () => { const image = new window.Image(); image.src = assets.flip; };
+    const preload = () => {
+      const flip = new window.Image();
+      flip.src = assets.flip;
+      const spinDelay = window.setTimeout(() => {
+        const spin = new window.Image();
+        spin.src = assets.spin;
+      }, 1800);
+      return () => window.clearTimeout(spinDelay);
+    };
     const idleWindow = window as unknown as {
       requestIdleCallback?: (callback: IdleRequestCallback, options?: IdleRequestOptions) => number;
       cancelIdleCallback?: (handle: number) => void;
     };
     if (idleWindow.requestIdleCallback) {
-      const idle = idleWindow.requestIdleCallback(preload, { timeout: 2500 });
-      return () => idleWindow.cancelIdleCallback?.(idle);
+      let cancelPreloads: (() => void) | undefined;
+      const idle = idleWindow.requestIdleCallback(() => { cancelPreloads = preload(); }, { timeout: 2500 });
+      return () => { idleWindow.cancelIdleCallback?.(idle); cancelPreloads?.(); };
     }
-    const fallback = setTimeout(preload, 1200);
-    return () => clearTimeout(fallback);
+    let cancelPreloads: (() => void) | undefined;
+    const fallback = setTimeout(() => { cancelPreloads = preload(); }, 1200);
+    return () => { clearTimeout(fallback); cancelPreloads?.(); };
   }, [enabled, reducedMotion]);
 
   useEffect(() => () => {
@@ -87,7 +97,7 @@ export function InteractiveBottle({ enabled, reducedMotion, onActivity, onRotati
     </span>
     {active && !reducedMotion && <Image
       key={`${mode}-${run}`}
-      className={`hero-animation ${phase === "playing" ? "is-playing" : ""}`}
+      className="hero-animation is-playing"
       src={`${active.src}?run=${run}`}
       alt=""
       aria-hidden="true"
