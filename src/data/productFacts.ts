@@ -18,10 +18,10 @@ export const businessContent = {
 } as const;
 
 export const assets = {
-  front: "/assets/shrotas/bottle-front-bright-cutout-v4.png",
-  side: "/assets/shrotas/bottle-side-bright-cutout-v4.png",
-  back: "/assets/shrotas/bottle-back-bright-cutout-v4.png",
-  heroFront: "/assets/shrotas/bottle-front-bright-cutout-v4.png",
+  front: "/assets/shrotas/bottle-front-bright-cutout-v3.png",
+  side: "/assets/shrotas/bottle-side-bright-cutout-v3.png",
+  back: "/assets/shrotas/bottle-back-bright-cutout-v3.png",
+  heroFront: "/assets/shrotas/bottle-front-bright-cutout-v3.png",
   flip: "/assets/shrotas/bottle-flip-responsive.webp",
   spin: "/assets/shrotas/bottle-spin-responsive.webp",
   logo: "/assets/shrotas/logo.png",
