@@ -21,6 +21,7 @@ const animation = {
 
 export function InteractiveBottle({ enabled, reducedMotion, onActivity, onRotation, onAuto }: Props) {
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const artTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [mode, setMode] = useState<Mode | null>(null);
   const [phase, setPhase] = useState<Phase>("idle");
   const [run, setRun] = useState(0);
@@ -58,6 +59,19 @@ export function InteractiveBottle({ enabled, reducedMotion, onActivity, onRotati
     timer.current = setTimeout(clearPlayback, animation[mode].duration);
   }, [clearPlayback, mode, reducedMotion]);
 
+  const animateArt = useCallback(() => {
+    if (!enabled) return;
+    if (artTimer.current) clearTimeout(artTimer.current);
+    onRotation(.5);
+    onActivity(true);
+    onAuto(true);
+    artTimer.current = setTimeout(() => {
+      onActivity(false);
+      onAuto(false);
+      artTimer.current = null;
+    }, reducedMotion ? 150 : 3100);
+  }, [enabled, onActivity, onAuto, onRotation, reducedMotion]);
+
   useEffect(() => {
     if (!enabled || reducedMotion) return;
     const preload = () => {
@@ -85,6 +99,7 @@ export function InteractiveBottle({ enabled, reducedMotion, onActivity, onRotati
 
   useEffect(() => () => {
     if (timer.current) clearTimeout(timer.current);
+    if (artTimer.current) clearTimeout(artTimer.current);
     onActivity(false);
     onAuto(false);
   }, [onActivity, onAuto]);
@@ -95,8 +110,8 @@ export function InteractiveBottle({ enabled, reducedMotion, onActivity, onRotati
       className="bottle-touch"
       type="button"
       disabled={!enabled}
-      aria-label="Spin the Shrotas bottle"
-      onClick={() => choose("spin")}
+      aria-label="Animate The Art of Hydration"
+      onClick={animateArt}
       onPointerMove={(event) => {
         if (!enabled || event.pointerType === "touch") return;
         const rect = event.currentTarget.getBoundingClientRect();
