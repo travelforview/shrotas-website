@@ -8,7 +8,7 @@ export const productFacts = {
   ingredients: "Purified water, calcium chloride, magnesium sulphate & potassium bicarbonate.",
   recyclable: "Recyclable bottle",
   manufacturer: "Shrotas Beverages Private Limited",
-  location: "Ground, G 14, Ashapura Complex, Silvassa Vapi Road, Valsad, Gujarat - 396195",
+  location: "Ground, G 14, Ashapura Complex, Silvassa Vapi Road, Valsad, Gujarat, 396195, Valsad, Gujarat-396195",
 } as const;
 
 export const businessContent = {
