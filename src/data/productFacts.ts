@@ -19,8 +19,7 @@ export const businessContent = {
 
 export const assets = {
   front: "/assets/shrotas/bottle-front.png",
-  side: "/assets/shrotas/bottle-side.png",
+  side: "/assets/shrotas/bottle-side-final.png",
   back: "/assets/shrotas/bottle-back.png",
-  addressLabel: "/assets/shrotas/valsad-address-label.png",
   logo: "/assets/shrotas/logo.png",
 } as const;
