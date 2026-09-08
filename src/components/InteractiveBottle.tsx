@@ -1,116 +1,29 @@
 "use client";
 
 import Image from "next/image";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { PointerEvent, useCallback, useEffect, useRef, useState } from "react";
 import { assets } from "@/data/productFacts";
 
-type Mode = "flip" | "spin";
-type Phase = "idle" | "loading" | "playing";
-type Props = {
-  enabled: boolean;
-  reducedMotion: boolean;
-  onActivity: (active: boolean) => void;
-  onRotation: (turn: number) => void;
-  onAuto: (active: boolean) => void;
-};
+type Props={enabled:boolean;reducedMotion:boolean;onActivity:(active:boolean)=>void;onRotation:(turn:number)=>void;onAuto:(active:boolean)=>void};
+type Gesture={id:number;startX:number;startY:number;lastX:number;lastY:number;startTime:number;lastTime:number;moved:number;intent:"pending"|"horizontal"|"vertical";samples:{x:number;t:number}[]};
 
-const animation = {
-  flip: { src: assets.flip, duration: 4000, label: "Flip" },
-  spin: { src: assets.spin, duration: 5000, label: "Spin" },
-} as const;
-
-export function InteractiveBottle({ enabled, reducedMotion, onActivity, onRotation, onAuto }: Props) {
-  const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const [mode, setMode] = useState<Mode | null>(null);
-  const [phase, setPhase] = useState<Phase>("idle");
-  const [run, setRun] = useState(0);
-
-  const clearPlayback = useCallback(() => {
-    if (timer.current) clearTimeout(timer.current);
-    timer.current = null;
-    setMode(null);
-    setPhase("idle");
-    onActivity(false);
-    onAuto(false);
-    onRotation(0);
-  }, [onActivity, onAuto, onRotation]);
-
-  const choose = useCallback((next: Mode) => {
-    if (!enabled) return;
-    if (timer.current) clearTimeout(timer.current);
-    onRotation(0);
-    if (reducedMotion) {
-      setMode(next);
-      setPhase("idle");
-      timer.current = setTimeout(clearPlayback, 700);
-      return;
-    }
-    setMode(next);
-    setPhase("loading");
-    setRun(value => value + 1);
-    onActivity(true);
-    onAuto(true);
-  }, [clearPlayback, enabled, onActivity, onAuto, onRotation, reducedMotion]);
-
-  const begin = useCallback(() => {
-    if (!mode || reducedMotion) return;
-    setPhase("playing");
-    timer.current = setTimeout(clearPlayback, animation[mode].duration);
-  }, [clearPlayback, mode, reducedMotion]);
-
-  useEffect(() => {
-    if (!enabled || reducedMotion) return;
-    const preload = () => { const image = new window.Image(); image.src = assets.flip; };
-    const idleWindow = window as unknown as {
-      requestIdleCallback?: (callback: IdleRequestCallback, options?: IdleRequestOptions) => number;
-      cancelIdleCallback?: (handle: number) => void;
-    };
-    if (idleWindow.requestIdleCallback) {
-      const idle = idleWindow.requestIdleCallback(preload, { timeout: 2500 });
-      return () => idleWindow.cancelIdleCallback?.(idle);
-    }
-    const fallback = setTimeout(preload, 1200);
-    return () => clearTimeout(fallback);
-  }, [enabled, reducedMotion]);
-
-  useEffect(() => () => {
-    if (timer.current) clearTimeout(timer.current);
-    onActivity(false);
-    onAuto(false);
-  }, [onActivity, onAuto]);
-
-  const active = mode ? animation[mode] : null;
-  return <div className={`interactive-bottle phase-${phase}`} aria-busy={phase !== "idle"}>
-    <span className="bottle-glow" aria-hidden="true" />
-    <span className="hero-still">
-      <Image src={assets.heroFront} alt="Front of the Shrotas 750 ml bottle" draggable={false} fill priority sizes="(max-width: 768px) 66vw, 420px" />
-    </span>
-    {active && !reducedMotion && <Image
-      key={`${mode}-${run}`}
-      className={`hero-animation ${phase === "playing" ? "is-playing" : ""}`}
-      src={`${active.src}?run=${run}`}
-      alt=""
-      aria-hidden="true"
-      draggable="false"
-      fill
-      unoptimized
-      sizes="(max-width: 768px) 66vw, 420px"
-      onLoad={begin}
-      onError={clearPlayback}
-    />}
-    <div className="motion-control" aria-label="Bottle animation">
-      {(["flip", "spin"] as const).map(option => <button
-        key={option}
-        type="button"
-        disabled={!enabled}
-        aria-label={`Play ${option} bottle animation`}
-        aria-pressed={mode === option}
-        className={mode === option ? "is-active" : ""}
-        onPointerEnter={() => { if (!reducedMotion) { const image = new window.Image(); image.src = animation[option].src; } }}
-        onFocus={() => { if (!reducedMotion) { const image = new window.Image(); image.src = animation[option].src; } }}
-        onClick={() => choose(option)}
-      >{animation[option].label}</button>)}
-    </div>
-    <span className="sr-only" aria-live="polite">{mode ? `${animation[mode].label} ${reducedMotion ? "selected; animation reduced" : phase}` : "Bottle at front view"}</span>
-  </div>;
+export function InteractiveBottle({enabled,reducedMotion,onActivity,onRotation,onAuto}:Props){
+  const stage=useRef<HTMLButtonElement>(null),raf=useRef(0),angle=useRef(0),velocity=useRef(0),gesture=useRef<Gesture|null>(null),auto=useRef(false),liquidTimer=useRef<ReturnType<typeof setTimeout>|null>(null);
+  const [engaged,setEngaged]=useState(false),[settling,setSettling]=useState(false),[used,setUsed]=useState(false);
+  const render=useCallback((next:number)=>{const previous=angle.current;angle.current=((next%1)+1)%1;let delta=angle.current-previous;if(delta>.5)delta-=1;if(delta<-.5)delta+=1;const node=stage.current;if(node&&!reducedMotion){const energy=Math.max(-1,Math.min(1,delta*26));node.style.setProperty("--liquid-shift",`${energy*7}px`);node.style.setProperty("--liquid-tilt",`${energy*4.5}deg`);if(liquidTimer.current)clearTimeout(liquidTimer.current);liquidTimer.current=setTimeout(()=>{node.style.setProperty("--liquid-shift","0px");node.style.setProperty("--liquid-tilt","0deg")},110)}const layers=node?.querySelectorAll<HTMLElement>(".angle-layer");layers?.forEach((layer,index)=>{const anchor=index/3,raw=Math.abs(angle.current-anchor),distance=Math.min(raw,1-raw),weight=Math.max(0,1-distance*3);layer.style.opacity=String(weight);layer.style.transform=`scale(${.985+weight*.015})`});onRotation(angle.current)},[onRotation,reducedMotion]);
+  const stop=useCallback(()=>{cancelAnimationFrame(raf.current);raf.current=0},[]);
+  const finish=useCallback(()=>{setEngaged(false);onActivity(false)},[onActivity]);
+  const settle=useCallback(()=>{stop();setSettling(true);const start=performance.now(),from=angle.current,distance=1-from,duration=reducedMotion?120:720;const tick=(now:number)=>{const p=Math.min(1,(now-start)/duration),ease=1-Math.pow(1-p,4);render(from+distance*ease);if(p<1)raf.current=requestAnimationFrame(tick);else{render(0);setSettling(false);auto.current=false;onAuto(false);finish()}};raf.current=requestAnimationFrame(tick)},[finish,onAuto,reducedMotion,render,stop]);
+  const cinematic=useCallback(()=>{if(!enabled||auto.current)return;stop();auto.current=true;setUsed(true);onAuto(true);setEngaged(true);onActivity(true);const start=performance.now(),from=angle.current,turns=(reducedMotion?1:3)+(1-angle.current),duration=reducedMotion?300:2800;const tick=(now:number)=>{const p=Math.min(1,(now-start)/duration),ease=p<.18?2.75*p*p:1-Math.pow(1-p,3);render(from+turns*ease);if(p<1)raf.current=requestAnimationFrame(tick);else settle()};raf.current=requestAnimationFrame(tick)},[enabled,onActivity,onAuto,reducedMotion,render,settle,stop]);
+  const coast=useCallback((initial:number)=>{stop();velocity.current=initial;let previous=performance.now();const tick=(now:number)=>{const dt=Math.min(32,now-previous);previous=now;render(angle.current+velocity.current*dt);velocity.current*=Math.pow(.994,dt);if(Math.abs(velocity.current)>.000035)raf.current=requestAnimationFrame(tick);else finish()};raf.current=requestAnimationFrame(tick)},[finish,render,stop]);
+  const pointerDown=(e:PointerEvent<HTMLButtonElement>)=>{if(!enabled||auto.current||gesture.current)return;stop();const now=performance.now();gesture.current={id:e.pointerId,startX:e.clientX,startY:e.clientY,lastX:e.clientX,lastY:e.clientY,startTime:now,lastTime:now,moved:0,intent:"pending",samples:[{x:e.clientX,t:now}]};e.currentTarget.setPointerCapture(e.pointerId)};
+  const pointerMove=(e:PointerEvent<HTMLButtonElement>)=>{const g=gesture.current;if(!g||g.id!==e.pointerId||auto.current)return;const now=performance.now(),totalX=e.clientX-g.startX,totalY=e.clientY-g.startY,dx=e.clientX-g.lastX;g.moved=Math.max(g.moved,Math.hypot(totalX,totalY));if(g.intent==="pending"&&g.moved>9){if(Math.abs(totalX)>Math.abs(totalY)*1.18){g.intent="horizontal";setUsed(true);setEngaged(true);onActivity(true)}else if(Math.abs(totalY)>Math.abs(totalX)*1.1){g.intent="vertical";if(e.currentTarget.hasPointerCapture(e.pointerId))e.currentTarget.releasePointerCapture(e.pointerId)}}if(g.intent==="horizontal"){e.preventDefault();const width=Math.max(160,e.currentTarget.getBoundingClientRect().width);render(angle.current+dx/width);g.samples.push({x:e.clientX,t:now});g.samples=g.samples.filter(s=>now-s.t<100)}g.lastX=e.clientX;g.lastY=e.clientY;g.lastTime=now};
+  const pointerEnd=(e:PointerEvent<HTMLButtonElement>,cancelled=false)=>{const g=gesture.current;if(!g||g.id!==e.pointerId)return;gesture.current=null;if(e.currentTarget.hasPointerCapture(e.pointerId))e.currentTarget.releasePointerCapture(e.pointerId);if(cancelled||g.intent==="vertical"){finish();return}const duration=performance.now()-g.startTime;if(g.intent==="pending"&&g.moved<9&&duration<360){cinematic();return}if(g.intent==="horizontal"){const samples=g.samples,first=samples[0],last=samples[samples.length-1],pxVelocity=last&&first&&last.t>first.t?(last.x-first.x)/(last.t-first.t):0;const width=Math.max(160,e.currentTarget.getBoundingClientRect().width),turnVelocity=pxVelocity/width;if(!reducedMotion&&Math.abs(pxVelocity)>.22)coast(Math.max(-.008,Math.min(.008,turnVelocity)));else finish()}};
+  const hover=(e:PointerEvent<HTMLButtonElement>)=>{if(e.pointerType!=="mouse"||gesture.current||!stage.current||auto.current)return;const r=stage.current.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;stage.current.style.setProperty("--hover-x",`${x*9}px`);stage.current.style.setProperty("--hover-y",`${y*4}px`);stage.current.style.setProperty("--hover-ry",`${x*6}deg`)};
+  const resetHover=()=>{stage.current?.style.setProperty("--hover-x","0px");stage.current?.style.setProperty("--hover-y","0px");stage.current?.style.setProperty("--hover-ry","0deg")};
+  useEffect(()=>()=>{stop();if(liquidTimer.current)clearTimeout(liquidTimer.current)},[stop]);
+  return <button ref={stage} type="button" className={`interactive-bottle ${used?"has-interacted":""} ${engaged?"is-engaged":""} ${settling?"is-settling":""}`} disabled={!enabled} onPointerDown={pointerDown} onPointerMove={e=>{pointerMove(e);hover(e)}} onPointerUp={e=>pointerEnd(e)} onPointerCancel={e=>pointerEnd(e,true)} onPointerLeave={resetHover} aria-label="Drag, flick, or tap the Shrotas bottle">
+    <span className="bottle-glow"/>{[assets.front,assets.side,assets.back].map((src,index)=><span className="angle-layer" key={src} style={{opacity:index===0?1:0}}><Image src={src} alt={index===0?"Front of the Shrotas 750 ml bottle":""} aria-hidden={index!==0} draggable={false} fill priority={index===0} sizes="(max-width: 768px) 58vw, 350px"/></span>)}
+    <span className="water-interior" aria-hidden="true"><i/><b/></span><span className="finish-sweep"/><span className="rotate-hint">drag · flick · tap</span>
+  </button>;
 }
