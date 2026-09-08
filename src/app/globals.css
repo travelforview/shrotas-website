@@ -24,6 +24,7 @@
 .finale-address{max-width:480px;margin-top:22px;color:#8d8681;font-style:normal;font-size:.64rem;line-height:1.6;letter-spacing:.04em}
 @media(max-width:760px){.finale-contact{flex-direction:column;gap:10px;margin-top:20px}.finale-contact a{font-size:.58rem;width:max-content}}
 @media(max-width:760px){.finale-address{margin-top:16px;max-width:34ch;font-size:.56rem;line-height:1.55}}
+.study-image .study-address-overlay{position:absolute;z-index:3;left:50%;top:45.1%;width:31%;height:auto;transform:translateX(-50%);object-fit:contain;filter:none}.study-image .study-address-overlay.packer{top:56.2%}
 .interactive-bottle{--hover-x:0px;--hover-y:0px;--hover-ry:0deg}.angle-layer img{transform:translate3d(var(--hover-x),var(--hover-y),0) rotateY(var(--hover-ry));transition:transform .38s cubic-bezier(.2,.8,.2,1),filter .25s}.interactive-bottle.is-engaged .angle-layer img{transform:none;transition:transform .1s linear}
 @media(hover:none){.angle-layer img{transform:none}}
 .interactive-bottle:disabled{cursor:default}.interactive-bottle.has-interacted .rotate-hint{opacity:0}
